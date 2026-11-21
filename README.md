@@ -48,9 +48,9 @@ Cada equipo elige **una línea** para su proyecto. Tocá cada una para ver su gu
 
 <!-- vitrina:inicio -->
 
-**1 proyecto registrado** · n8n: 1 · IA: 1 · Supabase: 1 · Clerk: 0 · Avalanche Fuji: 0 · Google Cloud: 0
+**2 proyectos registrados** · n8n: 2 · IA: 1 · Supabase: 1 · Clerk: 0 · Avalanche Fuji: 0 · Google Cloud: 0
 
-Por línea: IA para tu comunidad: 0 · Web3 con Avalanche Fuji: 0 · Apps con login y datos: 1 · Impacto social y ambiental: 0
+Por línea: IA para tu comunidad: 0 · Web3 con Avalanche Fuji: 0 · Apps con login y datos: 1 · Impacto social y ambiental: 1
 
 Postulaciones a las menciones especiales: Mejor uso de Avalanche Fuji: 0 · Mejor uso de Google Cloud: 0
 
@@ -61,6 +61,14 @@ Equipo **Team Kinger** · Línea **Apps con login y datos** · `n8n` `IA` `Supab
 CaseraAlToque les permite a los emprendedores de Santa Cruz registrar sus ventas y notas de compra desde una app con login, y sigue sola el stock y el costo de cada producto. Cuando algo está por acabarse o un proveedor sube el precio, la…
 
 [Ficha del proyecto](https://github.com/nodo-cero-bo/proyectos/issues/1)
+
+#### [NEXA Entérate a tiempo](https://github.com/nodo-cero-bo/proyectos/issues/2)
+
+Equipo **Empanada Suiza** · Línea **Impacto social y ambiental** · `n8n`
+
+NEXA es una plataforma inteligente que busca reducir la desigualdad en el acceso a oportunidades educativas, científicas, deportivas y culturales en Santa Cruz, Bolivia. Conecta estudiantes, colegios, universidades y organizadores…
+
+[Ficha del proyecto](https://github.com/nodo-cero-bo/proyectos/issues/2)
 
 <!-- vitrina:fin -->
 
