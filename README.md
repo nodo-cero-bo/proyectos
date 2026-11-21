@@ -48,7 +48,19 @@ Cada equipo elige **una línea** para su proyecto. Tocá cada una para ver su gu
 
 <!-- vitrina:inicio -->
 
-Todavía no hay proyectos registrados. [Registrá el de tu equipo](https://github.com/nodo-cero-bo/proyectos/issues/new?template=proyecto.yml).
+**1 proyecto registrado** · n8n: 1 · IA: 1 · Supabase: 1 · Clerk: 0 · Avalanche Fuji: 0 · Google Cloud: 0
+
+Por línea: IA para tu comunidad: 0 · Web3 con Avalanche Fuji: 0 · Apps con login y datos: 1 · Impacto social y ambiental: 0
+
+Postulaciones a las menciones especiales: Mejor uso de Avalanche Fuji: 0 · Mejor uso de Google Cloud: 0
+
+#### [CaseraAlToque](https://github.com/nodo-cero-bo/proyectos/issues/1)
+
+Equipo **Team Kinger** · Línea **Apps con login y datos** · `n8n` `IA` `Supabase`
+
+CaseraAlToque les permite a los emprendedores de Santa Cruz registrar sus ventas y notas de compra desde una app con login, y sigue sola el stock y el costo de cada producto. Cuando algo está por acabarse o un proveedor sube el precio, la…
+
+[Ficha del proyecto](https://github.com/nodo-cero-bo/proyectos/issues/1)
 
 <!-- vitrina:fin -->
 
