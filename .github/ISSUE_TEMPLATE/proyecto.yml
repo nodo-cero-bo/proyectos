@@ -9,7 +9,8 @@ body:
         Gracias por construir en **Nodo Cero**. Con este formulario tu proyecto entra en la vitrina del evento y queda a la vista de la mentoría, de los aliados y de quien quiera seguir tu trabajo.
 
         - Completá el título de arriba con el nombre del proyecto, después de `[Proyecto]`.
-        - Todo lo que escribas acá es **público**. No pongas correos, teléfonos, claves privadas ni credenciales.
+        - Elegí la **línea** de tu equipo: [IA para tu comunidad](https://github.com/nodo-cero-bo/guias/blob/main/lineas/ia.md), [Web3 con Avalanche Fuji](https://github.com/nodo-cero-bo/guias/blob/main/lineas/web3.md), [Apps con login y datos](https://github.com/nodo-cero-bo/guias/blob/main/lineas/apps.md) o [Impacto social y ambiental](https://github.com/nodo-cero-bo/guias/blob/main/lineas/impacto.md). Cualquier línea puede quedar entre los 3 equipos ganadores (1.er, 2.º y 3.er lugar) y postularse a las 2 menciones especiales.
+        - Todo lo que escribas acá es **público**. No pongas correos, teléfonos, claves privadas ni credenciales (tampoco el archivo JSON de una cuenta de servicio de Google Cloud).
         - Después de enviarlo podés editarlo cuando quieras: la vitrina se actualiza sola.
 
   - type: input
@@ -40,6 +41,19 @@ body:
     validations:
       required: false
 
+  - type: dropdown
+    id: linea
+    attributes:
+      label: Línea
+      description: La línea de la hackathon en la que compite tu proyecto. Cada equipo elige una; si toca varias, elegí la que mejor lo describe.
+      options:
+        - IA para tu comunidad
+        - Web3 con Avalanche Fuji
+        - Apps con login y datos
+        - Impacto social y ambiental
+    validations:
+      required: true
+
   - type: textarea
     id: que-hace
     attributes:
@@ -66,13 +80,14 @@ body:
     id: tecnologias
     attributes:
       label: Tecnologías que usaron
-      description: Marcá todas las que usaron. Con esto se arman las etiquetas del proyecto y los números del evento.
+      description: Marcá todas las que usaron. Con esto se arman las etiquetas del proyecto y los números del evento. Google Cloud incluye los servicios de la consola de Google Cloud (Vertex AI, Natural Language, Translation, Cloud Storage, BigQuery) y también Gemini con una clave de Google AI Studio. Si usaron Gemini, marquen IA y Google Cloud.
       options:
         - label: n8n
         - label: IA (agentes, modelos o embeddings)
         - label: Supabase
         - label: Clerk
         - label: Avalanche Fuji
+        - label: Google Cloud
 
   - type: dropdown
     id: workflows-base
@@ -87,6 +102,8 @@ body:
         - Clerk
         - Supabase
         - Proyectos completos
+        - Google Cloud
+        - Casos de uso
         - No, empezamos desde cero
     validations:
       required: false
@@ -118,6 +135,15 @@ body:
         - label: Instalamos Core Wallet
         - label: Nos inscribimos en Avalanche Academy
         - label: Nos sumamos a la comunidad de Team1 LATAM
+
+  - type: checkboxes
+    id: menciones
+    attributes:
+      label: ¿A qué mención especial se postula tu equipo? (opcional)
+      description: Hay 2 menciones especiales, además de los 3 lugares. «Mejor uso de Avalanche Fuji» reconoce al equipo que mejor integre Avalanche Fuji en su proyecto, y «Mejor uso de Google Cloud», al que mejor use Google Cloud. Cualquier equipo, de cualquier línea, puede postularse a una, a las dos o a ninguna.
+      options:
+        - label: Mejor uso de Avalanche Fuji
+        - label: Mejor uso de Google Cloud
 
   - type: checkboxes
     id: permiso

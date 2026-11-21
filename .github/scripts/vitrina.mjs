@@ -1,10 +1,12 @@
-// Vitrina de Nodo Cero: etiqueta cada proyecto por tecnología y rearma la lista del README.
+// Vitrina de Nodo Cero: etiqueta cada proyecto por tecnología, línea y mención, y rearma la lista del README.
 //
 // Lo corre .github/workflows/vitrina.yml cada vez que se abre, edita, cierra o reabre un issue (y a mano desde Actions).
 // No tiene dependencias: usa fetch de Node 24 contra la API REST de GitHub con el GITHUB_TOKEN del workflow.
 //
-// 1. Crea las etiquetas que falten (proyecto, una por tecnología y las del ecosistema Avalanche).
-// 2. A cada issue de proyecto abierto le pone las etiquetas según las casillas que marcó el equipo.
+// 1. Crea las etiquetas que falten (proyecto, una por tecnología, una por línea, una por mención especial
+//    y las del ecosistema Avalanche).
+// 2. A cada issue de proyecto abierto le pone las etiquetas según lo que eligió el equipo: las casillas
+//    (tecnologías, menciones, ecosistema) y la línea de la lista desplegable.
 // 3. Lee los issues abiertos con la etiqueta «proyecto» y reescribe la lista entre las marcas del README:
 //    <!-- vitrina:inicio --> y <!-- vitrina:fin -->. Para sacar un proyecto de la vitrina, se cierra su issue.
 //
@@ -28,6 +30,19 @@ const TECNOLOGIAS = [
   { casilla: 'Supabase', etiqueta: 'supabase', nombre: 'Supabase', color: '3ECF8E' },
   { casilla: 'Clerk', etiqueta: 'clerk', nombre: 'Clerk', color: '6C47FF' },
   { casilla: 'Avalanche Fuji', etiqueta: 'avalanche-fuji', nombre: 'Avalanche Fuji', color: 'E84142' },
+  { casilla: 'Google Cloud', etiqueta: 'google-cloud', nombre: 'Google Cloud', color: '4285F4' },
+];
+// Las 4 líneas de la hackathon (lista desplegable «Línea»: una por equipo). La guía de cada una está en guias/lineas/<id>.md.
+const LINEAS = [
+  { opcion: 'IA para tu comunidad', etiqueta: 'linea-ia', nombre: 'IA para tu comunidad', color: 'F7A8B8' },
+  { opcion: 'Web3 con Avalanche Fuji', etiqueta: 'linea-web3', nombre: 'Web3 con Avalanche Fuji', color: 'E05774' },
+  { opcion: 'Apps con login y datos', etiqueta: 'linea-apps', nombre: 'Apps con login y datos', color: 'B0284F' },
+  { opcion: 'Impacto social y ambiental', etiqueta: 'linea-impacto', nombre: 'Impacto social y ambiental', color: '7A1238' },
+];
+// Las 2 menciones especiales (casillas opcionales: el equipo se postula a una, a las dos o a ninguna).
+const MENCIONES = [
+  { casilla: 'Mejor uso de Avalanche Fuji', etiqueta: 'mencion-avalanche-fuji', nombre: 'Mejor uso de Avalanche Fuji', color: 'FFC857' },
+  { casilla: 'Mejor uso de Google Cloud', etiqueta: 'mencion-google-cloud', nombre: 'Mejor uso de Google Cloud', color: 'FFC857' },
 ];
 const ECOSISTEMA = [
   { casilla: 'Instalamos Core Wallet', etiqueta: 'core-wallet', nombre: 'Core Wallet', color: 'F2F2F2' },
@@ -35,17 +50,19 @@ const ECOSISTEMA = [
   { casilla: 'Nos sumamos a la comunidad de Team1 LATAM', etiqueta: 'team1-latam', nombre: 'Team1 LATAM', color: 'F2F2F2' },
 ];
 const ETIQUETA_PROYECTO = { etiqueta: 'proyecto', color: '5A0026', descripcion: 'Proyecto registrado en la vitrina de Nodo Cero' };
-const GESTIONADAS = new Set([ETIQUETA_PROYECTO.etiqueta, ...TECNOLOGIAS.map((t) => t.etiqueta), ...ECOSISTEMA.map((t) => t.etiqueta)]);
+const GESTIONADAS = new Set([ETIQUETA_PROYECTO.etiqueta, ...[...TECNOLOGIAS, ...LINEAS, ...MENCIONES, ...ECOSISTEMA].map((t) => t.etiqueta)]);
 
 const CAMPOS = {
   proyecto: 'Nombre del proyecto',
   equipo: 'Nombre del equipo',
+  linea: 'Línea',
   queHace: 'Qué hace',
   tecnologias: 'Tecnologías que usaron',
   base: '¿Partieron de algún workflow del repo?',
   enlace: 'Enlace al repo o al video (opcional)',
   hash: 'Hash de una transacción en Fuji (opcional)',
   ecosistema: 'Ecosistema Avalanche (opcional)',
+  menciones: '¿A qué mención especial se postula tu equipo? (opcional)',
 };
 
 // ---------------------------------------------------------------- lectura del issue
@@ -65,11 +82,22 @@ export function marcadas(texto = '') {
   return [...String(texto).matchAll(/^\s*[-*]\s*\[[xX]\]\s*(.+?)\s*$/gm)].map((m) => m[1]);
 }
 
-/** Etiquetas que le tocan al issue según sus casillas. */
+/** La línea elegida en la lista desplegable (o null si no eligió ninguna). */
+export function lineaDe(cuerpo) {
+  const elegida = String(secciones(cuerpo)[CAMPOS.linea] || '').trim();
+  return LINEAS.find((l) => l.opcion === elegida) || null;
+}
+
+/** Etiquetas que le tocan al issue según sus casillas y su línea. */
 export function etiquetasDe(cuerpo) {
   const s = secciones(cuerpo);
-  const elegidas = new Set([...marcadas(s[CAMPOS.tecnologias]), ...marcadas(s[CAMPOS.ecosistema])]);
-  return [...TECNOLOGIAS, ...ECOSISTEMA].filter((t) => elegidas.has(t.casilla)).map((t) => t.etiqueta);
+  const elegidas = new Set([...marcadas(s[CAMPOS.tecnologias]), ...marcadas(s[CAMPOS.menciones]), ...marcadas(s[CAMPOS.ecosistema])]);
+  const linea = lineaDe(cuerpo);
+  return [
+    ...TECNOLOGIAS.filter((t) => elegidas.has(t.casilla)).map((t) => t.etiqueta),
+    ...(linea ? [linea.etiqueta] : []),
+    ...[...MENCIONES, ...ECOSISTEMA].filter((t) => elegidas.has(t.casilla)).map((t) => t.etiqueta),
+  ];
 }
 
 export function esProyecto(issue) {
@@ -118,6 +146,8 @@ export function armarLista(issues) {
         equipo: limpio(s[CAMPOS.equipo], 60),
         queHace: limpio(s[CAMPOS.queHace], 240),
         tecnologias: TECNOLOGIAS.filter((t) => etiquetas.includes(t.etiqueta)),
+        linea: lineaDe(i.body),
+        menciones: MENCIONES.filter((m) => etiquetas.includes(m.etiqueta)),
         enlace: enlaceSeguro(s[CAMPOS.enlace]),
         hash: hashFuji(s[CAMPOS.hash]),
       };
@@ -127,13 +157,24 @@ export function armarLista(issues) {
   if (!proyectos.length) {
     l.push(`Todavía no hay proyectos registrados. [Registrá el de tu equipo](${FORMULARIO}).`, '');
   } else {
-    const cuenta = TECNOLOGIAS.map((t) => `${t.nombre}: ${proyectos.filter((p) => p.tecnologias.includes(t)).length}`).join(' · ');
-    l.push(`**${proyectos.length} ${proyectos.length === 1 ? 'proyecto registrado' : 'proyectos registrados'}** · ${cuenta}`, '');
+    const cuenta = (lista, clave) => lista.map((x) => `${x.nombre}: ${proyectos.filter((p) => p[clave].includes(x)).length}`).join(' · ');
+    const porLinea = LINEAS.map((x) => `${x.nombre}: ${proyectos.filter((p) => p.linea === x).length}`).join(' · ');
+    l.push(`**${proyectos.length} ${proyectos.length === 1 ? 'proyecto registrado' : 'proyectos registrados'}** · ${cuenta(TECNOLOGIAS, 'tecnologias')}`, '');
+    l.push(`Por línea: ${porLinea}`, '');
+    l.push(`Postulaciones a las menciones especiales: ${cuenta(MENCIONES, 'menciones')}`, '');
     for (const p of proyectos) {
       l.push(`#### [${p.nombre}](${p.url})`);
-      const linea = [p.equipo ? `Equipo **${p.equipo}**` : '', p.tecnologias.map((t) => `\`${t.nombre}\``).join(' ')].filter(Boolean);
-      if (linea.length) l.push('', linea.join(' · '));
+      const datos = [
+        p.equipo ? `Equipo **${p.equipo}**` : '',
+        p.linea ? `Línea **${p.linea.nombre}**` : '',
+        p.tecnologias.map((t) => `\`${t.nombre}\``).join(' '),
+      ].filter(Boolean);
+      if (datos.length) l.push('', datos.join(' · '));
       if (p.queHace) l.push('', p.queHace);
+      if (p.menciones.length) {
+        const nombres = p.menciones.map((m) => `**${m.nombre}**`);
+        l.push('', nombres.length === 1 ? `Se postula a la mención ${nombres[0]}.` : `Se postula a las menciones ${nombres.join(' y ')}.`);
+      }
       const enlaces = [
         p.enlace ? `[Repo o video](${p.enlace})` : '',
         p.hash ? `[Transacción en Fuji](${EXPLORADOR_FUJI}${p.hash})` : '',
@@ -192,6 +233,8 @@ async function asegurarEtiquetas() {
   const faltan = [
     { name: ETIQUETA_PROYECTO.etiqueta, color: ETIQUETA_PROYECTO.color, description: ETIQUETA_PROYECTO.descripcion },
     ...TECNOLOGIAS.map((t) => ({ name: t.etiqueta, color: t.color, description: `Usa ${t.nombre}` })),
+    ...LINEAS.map((t) => ({ name: t.etiqueta, color: t.color, description: `Línea ${t.nombre}` })),
+    ...MENCIONES.map((t) => ({ name: t.etiqueta, color: t.color, description: `Se postula a la mención ${t.nombre}` })),
     ...ECOSISTEMA.map((t) => ({ name: t.etiqueta, color: t.color, description: `El equipo marcó: ${t.casilla}` })),
   ].filter((e) => !hay.has(e.name));
   for (const e of faltan) {

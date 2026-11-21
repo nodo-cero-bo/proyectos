@@ -9,6 +9,7 @@
 > [Una frase: qué hace y para quién.]
 
 Proyecto creado en **Nodo Cero – Hackathon n8n Bolivia** (sábado 21 de noviembre de 2026), la hackathon de la comunidad n8n en Bolivia, enfocada en mujeres, de la mano de Women Techmakers Santa Cruz.
+Línea: **[IA para tu comunidad | Web3 con Avalanche Fuji | Apps con login y datos | Impacto social y ambiental]** (dejá la de tu equipo).
 Ficha en la vitrina: [nodo-cero-bo/proyectos#[número]](https://github.com/nodo-cero-bo/proyectos/issues/[número])
 
 ![Captura del workflow en n8n](captura.png)
@@ -49,6 +50,7 @@ flowchart LR
 | [Supabase] | [por ejemplo, guardar registros o buscar en documentos] |
 | [Clerk] | [por ejemplo, iniciar sesión y proteger la API] |
 | [Avalanche Fuji] | [por ejemplo, verificar pagos o leer eventos de un contrato] |
+| [Google Cloud] | [por ejemplo, Gemini en Vertex AI, traducir con Cloud Translation o guardar archivos en Cloud Storage] |
 
 ## Cómo probarlo
 
