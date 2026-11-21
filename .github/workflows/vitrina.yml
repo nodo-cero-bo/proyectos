@@ -1,0 +1,30 @@
+# Vitrina: cada vez que un equipo registra o edita su proyecto, le pone las etiquetas por tecnología
+# y rearma la lista del README. Para sacar un proyecto de la vitrina, cerrá su issue.
+name: Vitrina
+
+on:
+  issues:
+    types: [opened, edited, reopened, closed, deleted, labeled, unlabeled]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: vitrina
+  cancel-in-progress: false
+
+jobs:
+  vitrina:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - name: Etiquetar y actualizar la lista
+        run: node .github/scripts/vitrina.mjs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

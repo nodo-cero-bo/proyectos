@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Página de Nodo Cero
+    url: https://nodo-cero-bo.github.io
+    about: Catálogo de workflows, guías, agenda del día y aliados.
+  - name: Guías paso a paso
+    url: https://github.com/nodo-cero-bo/guias
+    about: Crear cuentas, importar workflows, conectar credenciales y presentar el proyecto.
+  - name: Workflows listos para importar
+    url: https://github.com/nodo-cero-bo/workflows
+    about: Los workflows de n8n del evento, con notas que explican cada paso.
+  - name: Foro de la comunidad n8n
+    url: https://community.n8n.io
+    about: Para dudas de n8n que no son del evento.

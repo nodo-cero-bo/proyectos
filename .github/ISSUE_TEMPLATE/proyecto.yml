@@ -1,0 +1,130 @@
+name: Registrá tu proyecto
+description: Sumá el proyecto de tu equipo a la vitrina de Nodo Cero, la hackathon de la comunidad n8n en Bolivia.
+title: "[Proyecto] "
+labels: ["proyecto"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Gracias por construir en **Nodo Cero**. Con este formulario tu proyecto entra en la vitrina del evento y queda a la vista de la mentoría, de los aliados y de quien quiera seguir tu trabajo.
+
+        - Completá el título de arriba con el nombre del proyecto, después de `[Proyecto]`.
+        - Todo lo que escribas acá es **público**. No pongas correos, teléfonos, claves privadas ni credenciales.
+        - Después de enviarlo podés editarlo cuando quieras: la vitrina se actualiza sola.
+
+  - type: input
+    id: proyecto
+    attributes:
+      label: Nombre del proyecto
+      description: Corto y claro, como lo van a presentar.
+      placeholder: "Ej.: Verificador de pagos en Fuji"
+    validations:
+      required: true
+
+  - type: input
+    id: equipo
+    attributes:
+      label: Nombre del equipo
+      placeholder: "Ej.: Las del nodo cuatro"
+    validations:
+      required: true
+
+  - type: textarea
+    id: integrantes
+    attributes:
+      label: Integrantes (opcional)
+      description: Nombres o usuarios de GitHub, si quieren que aparezcan. Sin correos ni teléfonos.
+      placeholder: |
+        Nombre Apellido (usuario-de-github)
+        Nombre Apellido
+    validations:
+      required: false
+
+  - type: textarea
+    id: que-hace
+    attributes:
+      label: Qué hace
+      description: En dos o tres frases, qué problema resuelve y para quién.
+      placeholder: Ayuda a las tiendas de barrio a confirmar un pago en Avalanche Fuji antes de entregar el pedido.
+    validations:
+      required: true
+      min_length: 20
+
+  - type: textarea
+    id: como-funciona
+    attributes:
+      label: Cómo funciona el flujo (opcional)
+      description: Los pasos principales del workflow de n8n, de la entrada a la salida.
+      placeholder: |
+        1. Un formulario de n8n recibe el hash del pago.
+        2. HTTP Request consulta la transacción en el RPC de Fuji.
+        3. Un IF revisa destino, monto y confirmaciones, y responde.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: tecnologias
+    attributes:
+      label: Tecnologías que usaron
+      description: Marcá todas las que usaron. Con esto se arman las etiquetas del proyecto y los números del evento.
+      options:
+        - label: n8n
+        - label: IA (agentes, modelos o embeddings)
+        - label: Supabase
+        - label: Clerk
+        - label: Avalanche Fuji
+
+  - type: dropdown
+    id: workflows-base
+    attributes:
+      label: ¿Partieron de algún workflow del repo?
+      description: Si importaron alguno del repo nodo-cero-bo/workflows, elegí de qué categorías. Podés marcar varias.
+      multiple: true
+      options:
+        - Fundamentos
+        - IA
+        - Avalanche Fuji
+        - Clerk
+        - Supabase
+        - Proyectos completos
+        - No, empezamos desde cero
+    validations:
+      required: false
+
+  - type: input
+    id: enlace
+    attributes:
+      label: Enlace al repo o al video (opcional)
+      description: El repo del proyecto, un video corto o la presentación. Tiene que empezar con https://
+      placeholder: https://github.com/tu-usuaria/tu-proyecto
+    validations:
+      required: false
+
+  - type: input
+    id: hash-fuji
+    attributes:
+      label: Hash de una transacción en Fuji (opcional)
+      description: Si el proyecto usa Avalanche Fuji, pegá el hash de una transacción de prueba (empieza con 0x y tiene 66 caracteres). Es un dato público, no una clave.
+      placeholder: "0x..."
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: avalanche
+    attributes:
+      label: Ecosistema Avalanche (opcional)
+      description: Nos ayuda a contarle a Team1 cuántas personas se sumaron. [Descargá Core Wallet](https://core.app/?utm_source=nodo-cero&utm_medium=github&utm_campaign=hackathon-n8n-bolivia-2026), [aprendé en Avalanche Academy](https://build.avax.network/academy?utm_source=nodo-cero&utm_medium=github&utm_campaign=hackathon-n8n-bolivia-2026) y [conocé Team1](https://www.team1.network/?utm_source=nodo-cero&utm_medium=github&utm_campaign=hackathon-n8n-bolivia-2026).
+      options:
+        - label: Instalamos Core Wallet
+        - label: Nos inscribimos en Avalanche Academy
+        - label: Nos sumamos a la comunidad de Team1 LATAM
+
+  - type: checkboxes
+    id: permiso
+    attributes:
+      label: Antes de enviar
+      options:
+        - label: Aceptamos que el proyecto se muestre en la vitrina pública de Nodo Cero.
+          required: true
+        - label: No incluimos correos, teléfonos, claves privadas ni credenciales.
+          required: true
